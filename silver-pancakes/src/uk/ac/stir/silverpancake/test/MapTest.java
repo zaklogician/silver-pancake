@@ -30,18 +30,6 @@ public class MapTest {
 		};
 	}
 	
-	class UpdatedMap extends Map {
-		
-		public Cell[][] values;
-		
-		public UpdatedMap(Map old) {
-
-			
-		}
-		
-		
-	}
-	
 	
 	@Test
 	public void testUpdate() {

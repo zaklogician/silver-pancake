@@ -6,9 +6,9 @@ import java.util.List;
 public class Map {
 	
 	public Cell[][] values = {
-		{new WallCell()  ,  new WallCell()  , new WallCell()},
-		{new WaterCell() ,  new WaterCell() , new WallCell()},
-		{new WaterCell() ,  new WallCell()  , new WallCell()}
+			{ new WaterCell(35), new WaterCell(35), new WaterCell(40) },
+			{ new WaterCell(35), new WaterCell(40), new WaterCell(40) },
+			{ new WaterCell(40), new WaterCell(40), new WaterCell(45) }
 	};
 	
 	public final Cell border = new WallCell();
@@ -27,6 +27,32 @@ public class Map {
 		if (j != values.length-1) result[1][2] = values[i][j+1];
 		
 		return result;
+	}
+	
+    public static double temperatureFormula(Cell[][] neighborhood) {
+		double a = 0.2;
+		double temperature = neighborhood[1][1].getTemperature() + a * (neighborhood[0][1].getTemperature() - 
+							2 * neighborhood[1][1].getTemperature() + neighborhood[2][1].getTemperature()) + 
+							a * (neighborhood[1][2].getTemperature() - 2 * neighborhood[1][1].getTemperature() +
+							neighborhood[1][0].getTemperature() );
+
+		return temperature;
+	}
+	
+	public void iteration() {
+		Cell[][] newValues = new Cell[values.length][values.length];
+		
+		for(int i = 0; i < values.length; i++)
+		for(int j = 0; j < values.length; j++) {
+			System.out.println("Original temperature: " + values[i][j].getTemperature());
+			double temp = temperatureFormula(neighbors(i, j));
+		    newValues[i][j] = new WaterCell(temp); 
+		    System.out.println("Temperature set to: " + temp);
+		    System.out.println("Temperature set to: " + newValues[i][j].getTemperature());
+		}
+		System.out.println("Iteration passed " + this.values[0][0].getTemperature());
+		this.values = newValues;
+		System.out.println("Iteration passed " + this.values[0][0].getTemperature());
 	}
 	
 }

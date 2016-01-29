@@ -34,6 +34,8 @@ class Surface extends JPanel implements ActionListener {
         return timer;
     }
 
+    Map map = new Map();
+    int iterations = 0;
     // our main method
     private void doDrawing(Graphics g) {
 
@@ -57,23 +59,28 @@ class Surface extends JPanel implements ActionListener {
             	g2d.drawLine(x, y, x, y);
             }
         }*/
-        Map map = new Map();
-        
+        /*
         Random rng = new Random();
         
         for(int i = 0; i < map.values.length; i++)
         for(int j = 0; j < map.values.length; j++) {
         	map.values[i][j].setTemperature(map.values[i][j].getTemperature() + rng.nextInt(3)-1);
-        }
+        }*/
         
-        
-        for(int i = 0; i < map.values.length; i++)
-        for(int j = 0; j < map.values.length; j++) {
-        	Cell c = map.values[i][j];
-        	g2d.setColor(c.temperatureColor());
-        	//g2d.setColor(c.getColor());
-        	g2d.fillRect(i*32, j*32, 32, 32);
+
+        iterations++;
+        if (iterations % 5 == 0) {
+	        map.iteration();
         }
+	        
+	        
+	    for(int i = 0; i < map.values.length; i++)
+	    for(int j = 0; j < map.values.length; j++) {
+	        	Cell c = map.values[i][j];
+	        	g2d.setColor(c.temperatureColor());
+	        	//g2d.setColor(c.getColor());
+	        	g2d.fillRect(i*64, j*64, 64, 64);
+	    }
         
         
     }

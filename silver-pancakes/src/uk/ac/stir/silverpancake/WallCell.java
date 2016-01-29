@@ -9,7 +9,7 @@ public class WallCell implements Cell {
 		return temperature;
 	}
 	@Override public void setTemperature(double temperature) {
-		// fail silently (has constant temperature)
+		throw new UnsupportedOperationException("Can't change the temperature of wall!");
 	}
 
 	@Override public Color getColor() {
