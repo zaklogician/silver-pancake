@@ -9,4 +9,6 @@ public interface Cell {
 	public int getTemperature();
 	public void setTemperature(int temperature);
 	
+	public Color temperatureColor();
+	
 }

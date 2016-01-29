@@ -57,13 +57,25 @@ class Surface extends JPanel implements ActionListener {
             	g2d.drawLine(x, y, x, y);
             }
         }*/
+        Map map = new Map();
         
-        for(int i = 0; i < Map.values.length; i++)
-        for(int j = 0; j < Map.values.length; j++) {
-        	Cell c = Map.values[i][j];
-        	g2d.setColor(c.getColor());
+        Random rng = new Random();
+        
+        for(int i = 0; i < map.values.length; i++)
+        for(int j = 0; j < map.values.length; j++) {
+        	map.values[i][j].setTemperature(map.values[i][j].getTemperature() + rng.nextInt(3)-1);
+        }
+        
+        
+        for(int i = 0; i < map.values.length; i++)
+        for(int j = 0; j < map.values.length; j++) {
+        	Cell c = map.values[i][j];
+        	g2d.setColor(c.temperatureColor());
+        	//g2d.setColor(c.getColor());
         	g2d.fillRect(i*32, j*32, 32, 32);
         }
+        
+        
     }
 
     @Override

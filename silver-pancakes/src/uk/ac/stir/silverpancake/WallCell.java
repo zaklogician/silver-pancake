@@ -15,5 +15,9 @@ public class WallCell implements Cell {
 	@Override public Color getColor() {
 		return Color.BLACK;
 	}
+	@Override
+	public Color temperatureColor() {
+        return Color.black;
+	}
 
 }
