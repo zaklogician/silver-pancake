@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import uk.ac.stir.silverpancake.Cell;
 import uk.ac.stir.silverpancake.Map;
+import uk.ac.stir.silverpancake.Util;
 import uk.ac.stir.silverpancake.WallCell;
 import uk.ac.stir.silverpancake.WaterCell;
 
@@ -15,43 +16,60 @@ public class MapTest {
 	
 	class TestMap extends Map {
 		public Cell[][] values = {
-				{new WallCell()  ,  new WallCell()  , new WallCell()},
-				{new WaterCell() ,  new WaterCell() , new WallCell()},
-				{new WaterCell() ,  new WallCell()  , new WallCell()}
+				{ new WaterCell(35), new WaterCell(35), new WaterCell(40) },
+				{ new WaterCell(35), new WaterCell(40), new WaterCell(40) },
+				{ new WaterCell(40), new WaterCell(40), new WaterCell(45) }
 		};
+	}
+	
+	class FinalMap extends Map {
+		public Cell[][] values = {
+				{ new WaterCell(33), new WaterCell(36), new WaterCell(35) },
+				{ new WaterCell(36), new WaterCell(38), new WaterCell(39) },
+				{ new WaterCell(35), new WaterCell(39), new WaterCell(37) }
+		};
+	}
+	
+	class UpdatedMap extends Map {
+		
+		public Cell[][] values;
+		
+		public UpdatedMap(Map old) {
+
+			
+		}
+		
+		
 	}
 	
 	
 	@Test
-	public void testNeighbors() {
+	public void testUpdate() {
 		Map map = new TestMap();
+		Cell[][] newValues = new Cell[map.values.length][map.values.length];
 		
-		List<Cell> n00 = map.neighbors(0, 0);
-		assertTrue(  "0,1 is not a neighbor of 0,0 but it should be", n00.contains(map.values[0][1]) );
-		assertTrue(  "1,0 is not a neighbor of 0,0 but it should be", n00.contains(map.values[1][0]) );
-		assertFalse( "1,1 is a neighbor of 0,0 but it should not be", n00.contains(map.values[1][1]) );
+		for(int i = 0; i < map.values.length; i++)
+	    for(int j = 0; j < map.values.length; j++) {
+	    	newValues[i][j] = new WaterCell(Util.update(map.neighbors(i, j))); 
+	    }
 		
-		List<Cell> n01 = map.neighbors(0, 1);
-		assertTrue(  "0,0 is not a neighbor of 0,1 but it should be", n01.contains(map.values[0][0]) );
-		assertTrue(  "1,1 is not a neighbor of 0,1 but it should be", n01.contains(map.values[1][1]) );
-		assertTrue(  "0,2 is not a neighbor of 0,1 but it should be", n01.contains(map.values[0][2]) );
-		assertFalse( "1,2 is a neighbor of 0,1 but it should not be", n01.contains(map.values[1][2]) );
+		Map expected = new FinalMap();
 		
-		List<Cell> n11 = map.neighbors(1, 1);
-		assertTrue(  "0,1 is not a neighbor of 1,1 but it should be", n11.contains(map.values[0][1]) );
-		assertTrue(  "1,0 is not a neighbor of 1,1 but it should be", n11.contains(map.values[1][0]) );
-		assertTrue(  "1,2 is not a neighbor of 1,1 but it should be", n11.contains(map.values[1][2]) );
-		assertTrue(  "2,1 is not a neighbor of 1,1 but it should be", n11.contains(map.values[2][1]) );
-		assertFalse( "0,0 is a neighbor of 1,1 but it should not be", n11.contains(map.values[0][0]) );
+		for(int i = 0; i < expected.values.length; i++)
+		for(int j = 0; j < expected.values.length; j++) {
+		    	assertEquals("Coordinates "+i+","+j+" are not equal",expected.values[i][j].getTemperature(),newValues[i][j].getTemperature(),0.01);
+		}
 		
-		List<Cell> n22 = map.neighbors(2, 2);
-		assertTrue(  "1,2 is not a neighbor of 1,1 but it should be", n22.contains(map.values[1][2]) );
-		assertTrue(  "1,0 is not a neighbor of 1,1 but it should be", n11.contains(map.values[1][0]) );
-		assertTrue(  "1,2 is not a neighbor of 1,1 but it should be", n11.contains(map.values[1][2]) );
-		assertTrue(  "2,1 is not a neighbor of 1,1 but it should be", n11.contains(map.values[2][1]) );
-		assertFalse( "0,0 is a neighbor of 1,1 but it should not be", n11.contains(map.values[0][0]) );
+	}
+	
+	@Test
+	public void testNeighbors() {
 		
-		
+		Map map = new TestMap();
+		Cell[][] n00 = map.neighbors(0, 0);
+		assertEquals(  "Around 0,0 current should be 0,0", n00[1][1], map.values[0][0]);
+		assertEquals(  "Around 0,0 right neighbor should be 0,1", n00[1][2], map.values[0][1]);
+		assertEquals(  "Around 0,0 below neighbor should be 1,0", n00[2][1], map.values[1][0]);
 	}
 
 }

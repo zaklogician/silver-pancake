@@ -4,11 +4,11 @@ import java.awt.Color;
 
 public class WallCell implements Cell {
 	
-	private int temperature = 25;
-	@Override public int getTemperature() {
+	private int temperature = 30;
+	@Override public double getTemperature() {
 		return temperature;
 	}
-	@Override public void setTemperature(int temperature) {
+	@Override public void setTemperature(double temperature) {
 		// fail silently (has constant temperature)
 	}
 

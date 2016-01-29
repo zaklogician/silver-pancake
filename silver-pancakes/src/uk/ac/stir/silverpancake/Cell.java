@@ -6,8 +6,8 @@ public interface Cell {
 	
 	public Color getColor();
 	
-	public int getTemperature();
-	public void setTemperature(int temperature);
+	public double getTemperature();
+	public void setTemperature(double temperature);
 	
 	public Color temperatureColor();
 	

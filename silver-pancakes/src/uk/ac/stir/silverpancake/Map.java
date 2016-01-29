@@ -11,13 +11,20 @@ public class Map {
 		{new WaterCell() ,  new WallCell()  , new WallCell()}
 	};
 	
-	public List<Cell> neighbors(int i, int j) {
-		LinkedList<Cell> result = new LinkedList<Cell>();
+	public final Cell border = new WallCell();
+	
+	public Cell[][] neighbors(int i, int j) {
+		Cell[][] result = new Cell[3][3];
 		
-		if (i != 0)               { result.add( values[i-1][j] ); }
-		if (j != 0)               { result.add( values[i][j-1] ); }
-		if (i != values.length-1) { result.add( values[i+1][j] ); }
-		if (j != values.length-1) { result.add( values[i][j+1] ); }
+		for( int ic = 0; ic < 3; ic++ )
+		for( int jc = 0; jc < 3; jc++ ) {
+			result[ic][jc] = border;
+		}
+		result[1][1] = values[i][j];
+		if (i != 0) result[0][1] = values[i-1][j];
+		if (j != 0) result[1][0] = values[i][j-1];
+		if (i != values.length-1) result[2][1] = values[i+1][j];
+		if (j != values.length-1) result[1][2] = values[i][j+1];
 		
 		return result;
 	}
